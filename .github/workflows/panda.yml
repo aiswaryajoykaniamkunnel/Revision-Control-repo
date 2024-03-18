@@ -32,4 +32,5 @@ jobs:
             return newValue;
 
       - name: Display new value
-        run: echo "New value of the variable: ${{ steps.change_variable.outputs.result }}"
+        run: |
+          echo "New value of the variable: ${{ steps.change_variable.outputs.result }}"
