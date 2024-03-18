@@ -20,4 +20,4 @@ jobs:
       
       - name: Say Hello with updated version
         run: |
-          echo "${{ env.Greeting }} version number ${{ env.version }}"
+          echo "${{ env.Greeting }} version number ${{ env.version }} "
