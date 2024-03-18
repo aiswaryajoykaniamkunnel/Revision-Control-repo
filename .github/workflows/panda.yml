@@ -17,6 +17,6 @@ jobs:
       Greeting: Hello
     steps:
       - name: "Say Hello"
-        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
+        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!. The version $VERSION"
         env:
           First_Name: Hi
