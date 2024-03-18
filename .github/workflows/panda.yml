@@ -22,7 +22,7 @@ jobs:
           github-token: ${{ secrets.PAT }}
           script: |
             const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
-            const variableName = 'VERSION'; // Change this to your variable's name
+            const variableName = VERSION; // Change this to your variable's name
             const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: variableName });
             const currentValue = currentSecret.value;
             const newValue = parseInt(currentValue) + 1; // Increment current value by 1
