@@ -7,7 +7,7 @@ env:
 jobs:
   display-variables:
     name: ${{ vars.JOB_NAME }}
-    # You can use configuration variables with the `vars` context for dynamic jobs
+    # You can use configuration variables with the `vars` context for dynamic jos
     if: ${{ vars.USE_VARIABLES == 'true' }}
     runs-on: ${{ vars.RUNNER }}
     environment: ${{ vars.ENVIRONMENT_STAGE }}
