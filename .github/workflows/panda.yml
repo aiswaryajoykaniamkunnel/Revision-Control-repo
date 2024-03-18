@@ -20,7 +20,5 @@ jobs:
         run: 
           echo "$Greeting $First_Name. Today is $DAY_OF_WEEK! "
           echo "version number ${{ vars.version }}"
-          echo "version number ${{ vars.version = vars.version + 1}}"
-
         env:
           First_Name: Hi
