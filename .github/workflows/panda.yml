@@ -15,7 +15,7 @@ jobs:
       Greeting: Hello
     steps:      
       - name: Increment version
-        run: echo "${{vars.version}}=$(( ${{ vars.version }} + 1 ))" 
+        run: echo "$((${{vars.version}}))=$(( ${{ vars.version }} + 1 ))" 
       
       - name: Say Hello with version
         run: |
