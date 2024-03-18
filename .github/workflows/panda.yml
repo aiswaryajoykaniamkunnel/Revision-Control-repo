@@ -15,8 +15,8 @@ jobs:
       Greeting: Hello
     steps:      
       - name: Increment version
-        run: echo "version=$(( ${{ env.version }} + 1 ))" >> $GITHUB_ENV
+        run: echo "version=$(( ${{ vars.version }} + 1 ))" >> $GITHUB_ENV
       
       - name: Say Hello with version
         run: |
-          echo "${{ env.Greeting }} version number ${{ env.version }}"
+          echo "${{ env.Greeting }} version number ${{ vars.version }}"
