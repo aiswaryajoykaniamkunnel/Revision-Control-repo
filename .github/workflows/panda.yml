@@ -1,25 +1,24 @@
 name: Change Repository Variable
-
 on:
   push:
     branches:
       - main
-
 jobs:
-  change_variable_job:
+  change_and_display_variable_job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Change variable value
+        id: change_variable
         uses: actions/github-script@v4
         with:
-          github-token: ${{ secrets.VERSION_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
-            const variableName = 'VERSION'; //  Change this to your variable's name
-            const newValue = '123'; // Change this to the new value you want    to set
+            const variableName = 'YOUR_VARIABLE_NAME'; // Change this to your variable's name
+            const newValue = 'NEW_VALUE'; // Change this to the new value you want to set
             const variableId = repo.id;
             await github.repos.update({
               owner: context.repo.owner,
@@ -28,3 +27,9 @@ jobs:
               name: variableName,
               value: newValue
             });
+
+            // Return the new value
+            return newValue;
+
+      - name: Display new value
+        run: echo "New value of the variable: ${{ steps.change_variable.outputs.result }}"
