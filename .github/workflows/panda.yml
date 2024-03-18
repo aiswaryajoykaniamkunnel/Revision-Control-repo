@@ -1,14 +1,19 @@
-name: Change Repository Variable
+name: Change and Display Repository Variable
+
 on:
   push:
     branches:
       - main
+
 jobs:
   change_and_display_variable_job:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Pull changes
+        run: git pull origin main
 
       - name: Change variable value
         id: change_variable
@@ -17,21 +22,47 @@ jobs:
           github-token: ${{ secrets.PAT }}
           script: |
             const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
-            const variableName = VERSION; // Change this to your variable's name
-            const newValue = parseInt(variableName.data.value) + 1;
+            const variableName = 'VERSION'; // Change this to your variable's name
+            let newValue = 0;
             const variableId = repo.id;
-            await github.repos.update({
+
+            // Fetch the current value of the variable
+            const currentVariable = await github.repos.getWorkflowVariable({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              repository_id: variableId,
+              variable_id: variableId,
+              name: variableName
+            });
+
+            // Increment the value by 1
+            if (currentVariable.data.value) {
+              newValue = parseInt(currentVariable.data.value) + 1;
+            } else {
+              newValue = 1; // Set to 1 if the variable doesn't exist yet
+            }
+
+            // Update the repository variable
+            await github.repos.updateWorkflowVariable({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              variable_id: variableId,
               name: variableName,
-              value: newValue
+              value: newValue.toString()
             });
 
             // Return the new value
             return newValue;
 
+      - name: Commit changes
+        run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+          git add .
+          git commit -m "Update repository variable"
+
+      - name: Push changes
+        run: git push origin main
+
       - name: Display new value
         run: |
           echo "New value of the variable: ${{ steps.change_variable.outputs.result }}"
-          echo variableName.data.value
