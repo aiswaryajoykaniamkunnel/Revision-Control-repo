@@ -23,42 +23,13 @@ jobs:
           script: |
             const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
             const variableName = 'VERSION'; // Change this to your variable's name
-            let newValue = 0;
-            const variableId = repo.id;
-
-            // Fetch the current value of the variable
-            const currentVariable = await github.repos.getWorkflowVariable({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              variable_id: variableId,
-              name: variableName
-            });
-
-            // Increment the value by 1
-            if (currentVariable.data.value) {
-              newValue = parseInt(currentVariable.data.value) + 1;
-            } else {
-              newValue = 1; // Set to 1 if the variable doesn't exist yet
-            }
-
-            // Update the repository variable
-            await github.repos.updateWorkflowVariable({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              variable_id: variableId,
-              name: variableName,
-              value: newValue.toString()
-            });
-
+            const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: variableName });
+            const currentValue = currentSecret.value;
+            const newValue = parseInt(currentValue) + 1; // Increment current value by 1
+            const { data: updatedSecret } = await github.actions.createOrUpdateRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: variableName, encrypted_value: Buffer.from(newValue.toString()).toString('base64') });
+            
             // Return the new value
             return newValue;
-
-      - name: Commit changes
-        run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
-          git add .
-          git commit -m "Update repository variable"
 
       - name: Push changes
         run: git push origin main
