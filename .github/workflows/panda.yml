@@ -5,7 +5,7 @@ name: Greeting on variable day
 on:
   push:
     branches: 
-      -main
+      - main
 
 env:
   DAY_OF_WEEK: Monday
