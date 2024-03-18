@@ -23,7 +23,7 @@ jobs:
           script: |
             const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
             console.log("Repository data:", repo);
-            const variableName = 'PAT_VAR'; // Change this to your variable's name
+            const variableName = 'PAT'; // Change this to your variable's name
             const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: variableName });
             console.log("Current secret:", currentSecret);
             const currentValue = currentSecret.value;
@@ -38,8 +38,8 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          git config --global user.email "aiswaryajoypp@gmail.com"
+          git config --global user.name "aiswaryajoykaniamkunnel"
           git add .
           git commit -m "Update repository variable"
 
