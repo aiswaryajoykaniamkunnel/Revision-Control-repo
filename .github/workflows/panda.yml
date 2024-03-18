@@ -18,8 +18,8 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
-            const variableName = 'YOUR_VARIABLE_NAME'; //  Change this to your variable's name
-            const newValue = 'NEW_VALUE'; // Change this to the new value you want to set
+            const variableName = 'Version'; //  Change this to your variable's name
+            const newValue = 'NEW_Version'; // Change this to the new value you want to set
             const variableId = repo.id;
             await github.repos.update({
               owner: context.repo.owner,
