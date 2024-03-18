@@ -30,7 +30,7 @@ jobs:
             console.log("Current value:", currentValue);
             const newValue = parseInt(currentValue) + 1; // Increment current value by 1
             console.log("New value:", newValue);
-            const { data: updatedSecret } = await github.actions.createOrUpdateRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: variableName, key_id: currentSecret.key_id, encrypted_value: Buffer.from(newValue.toString()).toString('base64') });
+            const { data: updatedSecret } = await github.actions.createOrUpdateRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: variableName, key_id: currentSecret.key_id, key_id: currentSecret.key_id, encrypted_value: Buffer.from(newValue.toString()).toString('base64') });
             console.log("Updated secret:", updatedSecret);
             
             // Return the new value
