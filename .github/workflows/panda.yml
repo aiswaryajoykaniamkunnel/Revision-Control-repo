@@ -15,11 +15,11 @@ jobs:
       - name: Change variable value
         uses: actions/github-script@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.VERSION_TOKEN }}
           script: |
             const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
             const variableName = 'Version'; //  Change this to your variable's name
-            const newValue = 'NEW_Version'; // Change this to the new value you want to set
+            const newValue = 'NEW_Version'; // Change this to the new value you want    to set
             const variableId = repo.id;
             await github.repos.update({
               owner: context.repo.owner,
