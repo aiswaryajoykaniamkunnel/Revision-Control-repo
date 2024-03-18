@@ -17,8 +17,6 @@ jobs:
       Greeting: Hello
     steps:
       - name: "Say Hello"
-        run: 
-          echo "$Greeting $First_Name. Today is $DAY_OF_WEEK! "
+        run: |
           echo "version number ${{ vars.version }}"
-        env:
-          First_Name: Hi
+        
