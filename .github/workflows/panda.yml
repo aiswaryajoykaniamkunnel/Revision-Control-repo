@@ -18,7 +18,7 @@ jobs:
           script: |
             const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
             const variableName = 'VERSION'; // Change this to your variable's name
-            const newValue = parseInt(currentVariable.data.value) + 1;
+            const newValue = parseInt(VERSION.data.value) + 1;
             const variableId = repo.id;
             await github.repos.update({
               owner: context.repo.owner,
