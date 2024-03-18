@@ -1,23 +1,30 @@
-name: Greeting on variable day
+name: Change Repository Variable
 
 on:
   push:
-    branches: 
+    branches:
       - main
 
-env:
-  DAY_OF_WEEK: Monday
-
 jobs:
-  greeting_job:
+  change_variable_job:
     runs-on: ubuntu-latest
-    env:
-      Greeting: Hello
-      version: 1  # Initial value of version
     steps:
-      - name: Update version
-        run: echo "version=$(( ${{ env.version }} + 1 ))" >> $GITHUB_ENV
-      
-      - name: Say Hello with updated version
-        run: |
-          echo "${{ env.Greeting }} version number ${{ env.version }} "
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Change variable value
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
+            const variableName = 'YOUR_VARIABLE_NAME'; // Change this to your variable's name
+            const newValue = 'NEW_VALUE'; // Change this to the new value you want to set
+            const variableId = repo.id;
+            await github.repos.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              repository_id: variableId,
+              name: variableName,
+              value: newValue
+            });
