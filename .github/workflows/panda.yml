@@ -14,7 +14,7 @@ jobs:
         id: change_variable
         uses: actions/github-script@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PAT }}
           script: |
             const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
             const variableName = 'YOUR_VARIABLE_NAME'; // Change this to your variable's name
