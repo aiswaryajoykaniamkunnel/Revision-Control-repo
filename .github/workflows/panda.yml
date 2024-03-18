@@ -13,10 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       Greeting: Hello
-    steps:      
-      - name: Increment version
-        run: echo "$((${{vars.version}}))=$(( ${{ vars.version }} + 1 ))" 
+      version: 1  # Initial value of version
+    steps:
+      - name: Update version
+        run: echo "version=$(( ${{ env.version }} + 1 ))" >> $GITHUB_ENV
       
-      - name: Say Hello with version
+      - name: Say Hello with updated version
         run: |
-          echo "${{ env.Greeting }} version number ${{ vars.version }}"
+          echo "${{ env.Greeting }} version number ${{ env.version }}"
