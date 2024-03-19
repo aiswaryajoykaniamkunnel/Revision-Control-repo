@@ -21,8 +21,6 @@ jobs:
       - name: Increment revision
         id: increment_revision
         run: |
-          echo "NEW_REVISION=$(( ${{vars.PAT}} + 1 ))" 
-          echo "$NEW_REVISION "> secret.txt
           echo ${{ secrets.PAT }}
 
       - name: Update secret
@@ -31,6 +29,7 @@ jobs:
           github-token: ${{ secrets.PAT }}
           script: |
             const fs = require('fs');
+            const "NEW_REVISION=$(( ${{vars.PAT}} + 1 ))" 
             const secretValue = $NEW_REVISION;
             const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
             const response = await octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
