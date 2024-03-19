@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install @actions/github
+        run: npm install @actions/github
+
       - name: Checkout repository
         uses: actions/checkout@v2
 
@@ -27,23 +30,8 @@ jobs:
         run: npm install @octokit/core
 
       - name: Update secret
-        uses: actions/github-script@v4
-        with:
-          github-token: ${{ secrets.PAT }}
-          script: |
-            const fs = require('fs');
-            const { Octokit } = require("@octokit/core");
-            const secretValue = '${{vars.PAT}} +1';
-            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-            const response = await octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
-              owner: process.env.GITHUB_REPOSITORY.split("/")[0],
-              repo: process.env.GITHUB_REPOSITORY.split("/")[1],
-              secret_name: 'PAT', // Replace with your secret name
-              data: {
-                encrypted_value: Buffer.from(secretValue).toString('base64')
-              }
-            });
-
+        run: node update-secret.js
+        
       - name: Debug GitHub token
         run: |
           echo "GitHub Token: ${{ secrets.PAT }}"
