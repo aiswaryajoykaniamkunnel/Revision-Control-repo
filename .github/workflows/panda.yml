@@ -21,9 +21,18 @@ jobs:
       - name: Increment revision
         id: increment_revision
         run: |
-          echo "NEW_REVISION=$(( ${{vars.PAT}} + 1 ))" 
+          echo "NEW_REVISION=$(( ${{vars.PAT}} + 1 ))" > secret.txt
           PAT_VAR = $NEW_REVISION
           echo ${{ secrets.PAT }}
+
+      - name: Update secret
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PAT }}
+          branch: main
+          commit_message: 'Update secret value'
+          files: |
+            secret.txt
 
       - name: Debug GitHub token
         run: |
