@@ -29,15 +29,14 @@ jobs:
           github-token: ${{ secrets.PAT }}
           script: |
             const fs = require('fs');
-            const NEW_REVISION= ( ${{vars.PAT}} + 1 )
-            const secretValue = NEW_REVISION;
-            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+            const secretValue = '${{vars.PAT}} +1';
+            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
             const response = await octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            secret_name: 'PAT', // Replace with your secret name
-            data: {
-              encrypted_value: Buffer.from(secretValue).toString('base64')
+              owner: process.env.GITHUB_REPOSITORY.split("/")[0],
+              repo: process.env.GITHUB_REPOSITORY.split("/")[1],
+              secret_name: 'PAT', // Replace with your secret name
+              data: {
+                encrypted_value: Buffer.from(secretValue).toString('base64')
               }
             });
 
