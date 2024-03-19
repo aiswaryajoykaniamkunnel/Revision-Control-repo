@@ -12,33 +12,30 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Debugging step: Print out all repository secrets
-      - name: List repository secrets
-        run: |
-          echo "Repository Secrets:"
-          curl -X GET -H "Authorization: Bearer ${{ secrets.PAT }}" \
-          "https://api.github.com/repos/${{ github.repository }}/actions/secrets" | jq .
+      - name: Pull changes
+        run: git pull origin main
 
-      # Get current variable value
-      - name: Get current variable value
-        id: get_current_value
+      - name: Change variable value
+        id: change_variable
         uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.PAT }}
           script: |
-            const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: 'PAT' });
-            console.log('Current Secret:', currentSecret);
-            return currentSecret.value;
-
-      - name: Calculate new value
-        id: calculate_new_value
-        run: |
-          current_value="${{ steps.get_current_value.outputs.result }}"
-          echo "$current_value"
-          new_value=$(( current_value + 1 ))
-          echo "Current value: $current_value"
-          echo "New value: $new_value"     
+            const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
+            console.log("Repository data:", repo);
+            const variableName = 'PAT'; // Change this to your variable's name
+            const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: variableName });
+            console.log("Current secret:", currentSecret);
+            const currentValue = currentSecret.value;
+            console.log("Current value:", currentValue);
+            const newValue = parseInt(currentValue) + 1; // Increment current value by 1
+            console.log("New value:", newValue);
+            const { data: updatedSecret } = await github.actions.createOrUpdateRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: variableName, key_id: currentSecret.key_id, encrypted_value: Buffer.from(newValue.toString()).toString('base64') });
+            console.log("Updated secret:", updatedSecret);
+            
+            // Return the new value
+            return newValue;
 
       - name: Display new value
         run: |
-          echo "New value of the variable: ${{ steps.calculate_new_value.outputs.result }}"
+          echo "New value of the variable: ${{ steps.change_variable.outputs.result }}"
