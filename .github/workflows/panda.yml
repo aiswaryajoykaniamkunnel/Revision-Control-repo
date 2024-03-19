@@ -12,26 +12,28 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Define the PAT secret
-      - name: Set up PAT secret
-        run: echo "PAT=${{ secrets.PAT }}" >> $GITHUB_ENV
+      # Debugging step: Print out all repository secrets
+      - name: List repository secrets
+        run: |
+          echo "Repository Secrets:"
+          curl -X GET -H "Authorization: Bearer ${{ secrets.PAT }}" \
+          "https://api.github.com/repos/${{ github.repository }}/actions/secrets" | jq .
 
-      - name: Pull changes
-        run: git pull origin main
-
+      # Get current variable value
       - name: Get current variable value
         id: get_current_value
         uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.PAT }}
           script: |
-            const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: 'PAT' }); // Change to your variable's name
+            const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: 'PAT' });
+            console.log('Current Secret:', currentSecret);
             return currentSecret.value;
 
       - name: Calculate new value
         id: calculate_new_value
         run: |
-          current_value="${{ steps.get_current_value.outputs.value }}"
+          current_value="${{ steps.get_current_value.outputs.result }}"
           echo "$current_value"
           new_value=$(( current_value + 1 ))
           echo "Current value: $current_value"
