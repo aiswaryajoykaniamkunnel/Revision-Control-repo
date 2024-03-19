@@ -16,7 +16,7 @@ jobs:
       - name: Get current revision
         id: get_revision
         run: |
-          echo "CURRENT_REVISION=$(git rev-parse HEAD)" 
+          echo "CURRENT_REVISION=${{vars.PAT}}" 
           echo "${{vars.PAT}}"
 
       - name: Increment revision
