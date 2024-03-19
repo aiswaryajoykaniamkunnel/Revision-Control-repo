@@ -28,7 +28,7 @@ jobs:
             const { data: repo } = await github.repos.get({ owner: context.repo.owner, repo: context.repo.repo });
             console.log("Repository data:", repo);
             const variableName = 'PAT'; // Change this to your variable's name
-            const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: variableName });
+            const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: variableName, key_id: currentSecret.key_id, encrypted_value: Buffer.from(newValue.toString()).toString('base64') });
             console.log("Current secret:", currentSecret);
             const currentValue = currentSecret.value;
             console.log("Current value:", currentValue);
