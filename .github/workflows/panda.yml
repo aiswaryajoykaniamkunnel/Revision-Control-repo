@@ -8,28 +8,26 @@ on:
 jobs:
   increment_revision_job:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Get current revision from a file in the repository
       - name: Get current revision
         id: get_revision
-        run: echo "CURRENT_REVISION=$(cat revision.txt)"
+        run: |
+          echo "CURRENT_REVISION=${{vars.PAT}}" 
 
-      # Increment revision
       - name: Increment revision
         id: increment_revision
         run: |
-          NEW_REVISION=$(( $CURRENT_REVISION + 1 ))
-          echo $NEW_REVISION > revision.txt
+          echo "NEW_REVISION=$(( ${{vars.PAT}} + 1 ))" 
+          echo "$NEW_REVISION"
 
-      # Debug GitHub token
       - name: Debug GitHub token
         run: |
           echo "GitHub Token: ${{ secrets.PAT }}"
 
-      # Push changes
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
