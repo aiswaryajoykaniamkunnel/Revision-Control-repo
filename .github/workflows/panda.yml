@@ -21,13 +21,6 @@ jobs:
         id: increment_revision
         run: echo "NEW_REVISION=$(( $CURRENT_REVISION + 1 ))" >> $GITHUB_ENV
 
-      - name: Commit changes
-        run: |
-          git config --global user.email "aiswaryajoypp@gmail.com"
-          git config --global user.name "aiswaryajoykaniamkunnel"
-          git add .
-          git commit -m "Increment revision to $NEW_REVISION"
-
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
