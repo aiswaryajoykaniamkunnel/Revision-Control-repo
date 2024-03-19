@@ -21,8 +21,8 @@ jobs:
       - name: Increment revision
         id: increment_revision
         run: |
-          echo "NEW_REVISION=$(( ${{vars.PAT}} + 1 ))" > secret.txt
-          PAT_VAR = $NEW_REVISION
+          echo "NEW_REVISION=$(( ${{vars.PAT}} + 1 ))" 
+          echo "$NEW_REVISION "> secret.txt
           echo ${{ secrets.PAT }}
 
       - name: Update secret
