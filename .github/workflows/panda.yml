@@ -22,7 +22,7 @@ jobs:
         id: increment_revision
         run: |
           echo "NEW_REVISION=$(( ${{vars.PAT}} + 1 ))" 
-          ${{ secrets.PAT }} = $NEW_REVISION
+          $(( secrets.PAT )) = $NEW_REVISION
           echo ${{ secrets.PAT }}
 
       - name: Debug GitHub token
