@@ -1,10 +1,10 @@
 const { GitHub } = require('@actions/github');
 const github = new GitHub(process.env.GITHUB_TOKEN);
 
-const secretValue = 'new_secret_value';
+const secretValue = '3';
 const owner = process.env.GITHUB_REPOSITORY.split('/')[0];
 const repo = process.env.GITHUB_REPOSITORY.split('/')[1];
-const secretName = 'REPO_VARIABLE'; // Replace with your secret name
+const secretName = 'PAT'; // Replace with your secret name
 
 async function updateSecret() {
     try {

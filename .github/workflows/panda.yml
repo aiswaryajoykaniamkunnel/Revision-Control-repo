@@ -26,12 +26,9 @@ jobs:
         run: |
           echo ${{ secrets.PAT }}
 
-      - name: Install @octokit/core
-        run: npm install @octokit/core
-
       - name: Update secret
         run: node update-secret.js
-        
+
       - name: Debug GitHub token
         run: |
           echo "GitHub Token: ${{ secrets.PAT }}"
