@@ -31,8 +31,10 @@ jobs:
       - name: Calculate new value
         id: calculate_new_value
         run: |
-          echo "Current value: ${{ steps.get_current_value.outputs.result }}"
-          echo "New value: $(( ${ { steps.get_current_value.outputs.result } } + 1 ))"      
+          current_value="${{ steps.get_current_value.outputs.result }}"
+          new_value=$(( current_value + 1 ))
+          echo "Current value: $current_value"
+          echo "New value: $new_value"     
       
       - name: Commit changes
         run: |
