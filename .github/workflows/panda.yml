@@ -15,11 +15,15 @@ jobs:
 
       - name: Get current revision
         id: get_revision
-        run: echo "CURRENT_REVISION=$(git rev-parse HEAD)" >> $GITHUB_ENV
+        run: |
+          echo "CURRENT_REVISION=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          echo $GITHUB_ENV
 
       - name: Increment revision
         id: increment_revision
-        run: echo "NEW_REVISION=$(( $CURRENT_REVISION + 1 ))" >> $GITHUB_ENV
+        run: |
+          echo "NEW_REVISION=$(( $CURRENT_REVISION + 1 ))" >> $GITHUB_ENV
+          echo $GITHUB_ENV
 
       - name: Debug GitHub token
         run: |
