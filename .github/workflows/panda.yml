@@ -26,13 +26,21 @@ jobs:
           echo ${{ secrets.PAT }}
 
       - name: Update secret
-        uses: ad-m/github-push-action@master
+        uses: actions/github-script@v4
         with:
-          github_token: ${{ secrets.PAT }}
-          branch: main
-          commit_message: 'Update secret value'
-          files: |
-            secret.txt
+          github-token: ${{ secrets.PAT }}
+          script: |
+            const fs = require('fs');
+            const secretValue = $NEW_REVISION;
+            const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+            const response = await octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            secret_name: 'PAT', // Replace with your secret name
+            data: {
+              encrypted_value: Buffer.from(secretValue).toString('base64')
+              }
+            });
 
       - name: Debug GitHub token
         run: |
