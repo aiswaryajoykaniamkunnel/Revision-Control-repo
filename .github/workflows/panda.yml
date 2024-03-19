@@ -29,7 +29,6 @@ jobs:
             const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: 'PAT' });
             console.log('Current Secret:', currentSecret);
             return currentSecret.value;
-        run: echo "$currentSecret.value"
 
       - name: Calculate new value
         id: calculate_new_value
