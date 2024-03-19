@@ -12,6 +12,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # Define the PAT secret
+      - name: Set up PAT secret
+        run: echo "PAT=${{ secrets.PAT }}" >> $GITHUB_ENV
+
       - name: Pull changes
         run: git pull origin main
 
