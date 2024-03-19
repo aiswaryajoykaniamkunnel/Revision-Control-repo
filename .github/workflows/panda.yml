@@ -36,9 +36,6 @@ jobs:
           echo "Current value: $current_value"
           echo "New value: $new_value"     
 
-      - name: Push changes
-        run: git push origin main
-
       - name: Display new value
         run: |
           echo "New value of the variable: ${{ steps.change_variable.outputs.result  }}"
