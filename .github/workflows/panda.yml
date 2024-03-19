@@ -21,8 +21,12 @@ jobs:
         id: increment_revision
         run: echo "NEW_REVISION=$(( $CURRENT_REVISION + 1 ))" >> $GITHUB_ENV
 
+      - name: Debug GitHub token
+        run: |
+          echo "GitHub Token: ${{ secrets.PAT }}"
+
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.PAT }}
           branch: main
