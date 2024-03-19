@@ -26,7 +26,8 @@ jobs:
 
       # Debug GitHub token
       - name: Debug GitHub token
-        run: echo "GitHub Token: ${{ secrets.PAT }}"
+        run: |
+          echo "GitHub Token: ${{ secrets.PAT }}"
 
       # Push changes
       - name: Push changes
