@@ -35,13 +35,6 @@ jobs:
           new_value=$(( current_value + 1 ))
           echo "Current value: $current_value"
           echo "New value: $new_value"     
-      
-      - name: Commit changes
-        run: |
-          git config --global user.email "aiswaryajoypp@gmail.com"
-          git config --global user.name "aiswaryajoykaniamkunnel"
-          git add .
-          git commit -m "Update repository variable"
 
       - name: Push changes
         run: git push origin main
