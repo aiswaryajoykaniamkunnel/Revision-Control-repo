@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: https://github.com/aiswaryajoykaniamkunnel/VERSION
+        uses: actions/checkout@v2
 
       - name: Get current revision
         id: get_revision
@@ -26,7 +26,7 @@ jobs:
           echo ${{ secrets.PAT }}
 
       - name: Update secret
-        uses: https://github.com/aiswaryajoykaniamkunnel/VERSION
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT }}
           branch: main
@@ -39,7 +39,7 @@ jobs:
           echo "GitHub Token: ${{ secrets.PAT }}"
 
       - name: Push changes
-        uses: https://github.com/aiswaryajoykaniamkunnel/VERSION
+        uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.PAT }}
           branch: main
