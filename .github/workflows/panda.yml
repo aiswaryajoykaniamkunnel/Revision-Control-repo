@@ -29,6 +29,7 @@ jobs:
           github-token: ${{ secrets.PAT }}
           script: |
             const fs = require('fs');
+            const { Octokit } = require("@octokit/core");
             const secretValue = '${{vars.PAT}} +1';
             const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
             const response = await octokit.request('PUT /repos/{owner}/{repo}/actions/secrets/{secret_name}', {
