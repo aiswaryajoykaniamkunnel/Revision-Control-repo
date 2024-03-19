@@ -25,7 +25,7 @@ jobs:
         with:
           github-token: ${{ secrets.PAT }}
           script: |
-            const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: 'YOUR_VARIABLE_NAME' }); // Change to your variable's name
+            const { data: currentSecret } = await github.actions.getRepoSecret({ owner: context.repo.owner, repo: context.repo.repo, secret_name: 'PAT' }); // Change to your variable's name
             return currentSecret.value;
 
       - name: Calculate new value
