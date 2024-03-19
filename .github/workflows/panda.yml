@@ -1,4 +1,4 @@
-name: Increment Revision
+name: Increment Version
 
 on:
   push:
