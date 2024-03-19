@@ -23,6 +23,9 @@ jobs:
         run: |
           echo ${{ secrets.PAT }}
 
+      - name: Install @octokit/core
+        run: npm install @octokit/core
+
       - name: Update secret
         uses: actions/github-script@v4
         with:
