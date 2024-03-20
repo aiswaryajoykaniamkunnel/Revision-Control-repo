@@ -19,7 +19,7 @@ jobs:
       - name: Output Run ID
         run: |
           git rev-list --count --first-parent HEAD 
-          git describe parent
+          git describe 
       
       - name: Output Run git rev-list --count HEAD 
         run: |
