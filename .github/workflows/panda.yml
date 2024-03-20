@@ -1,34 +1,25 @@
-name: GitHub Actions Version Updater
-
-# Controls when the action will run.
+name: Increment value test
 on:
   push:
     branches:
-      - main 
-
+      - main
+    paths-ignore:
+      - 'foobar/baz/build_number.json'
 jobs:
-  build:
+  test:
+    name: Increment value test
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out source code
+        uses: actions/checkout@v3
         with:
-          # [Required] Access token with `workflow` scope.
-          token: ${{ secrets.PAT }}
-
-      - name: Output Run ID
-        run: |
-          git rev-list HEAD | wc -l
-      
-      - name: Output Run git rev-list --count HEAD 
-        run: |
-          git rev-list --count HEAD 
-          
-
-      - name: Output Run git rev-list --count HEAD 
-        run: |
-          echo "run attempt: $GITHUB_RUN_ATTEMPT"
-          echo $GITHUB_RUN_NUMBER
-
-      - name: Output Run Number
-        run: echo ${{ github.run_number }}
+          ref: ${{ github.ref }}
+          token: ${{ secrets.YOUR_PERSONAL_ACCESS_TOKEN }}
+      - name: Increment value
+        uses: yoichiro/gh-action-increment-value@main
+        with:
+          target_directory: 'foobar/baz'
+          target_file: 'build_number.json'
+          prefix: 'buildNumber":'
+          suffix: '}'
+          commit_message: 'Increment the build number to '
