@@ -17,12 +17,14 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Output Run ID
-        run: git rev-list --count --first-parent HEAD 
+        run: |
+          git rev-list --count --first-parent HEAD 
+          git describe parent
       
       - name: Output Run git rev-list --count HEAD 
         run: |
           git rev-list --count HEAD 
-          git describe parent
+          
 
       - name: Output Run git rev-list --count HEAD 
         run: git rev-list --count HEAD 
