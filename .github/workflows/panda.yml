@@ -20,10 +20,12 @@ jobs:
         run: git rev-list --count --first-parent HEAD 
       
       - name: Output Run git rev-list --count HEAD 
-        run: git rev-list --count HEAD 
+        run: |
+          git rev-list --count HEAD 
+          git describe parent
 
       - name: Output Run git rev-list --count HEAD 
-        run: git describe parent
+        run: 
 
       - name: Output Run Number
         run: echo ${{ github.run_number }}
