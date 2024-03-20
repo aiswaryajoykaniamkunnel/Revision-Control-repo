@@ -26,7 +26,7 @@ jobs:
           
 
       - name: Output Run git rev-list --count HEAD 
-        run: git fsck
+        run: aws deploy get-deployment --deployment-id $DEPLOYMENT_ID  --query "deploymentInfo.revision.gitHubLocation.commitId" --output text 
 
       - name: Output Run Number
         run: echo ${{ github.run_number }}
