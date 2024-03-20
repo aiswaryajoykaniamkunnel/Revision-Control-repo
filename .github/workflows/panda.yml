@@ -22,5 +22,8 @@ jobs:
       - name: Output Run git rev-list --count HEAD 
         run: git rev-list --count HEAD 
 
+      - name: Output Run git rev-list --count HEAD 
+        run: git describe 
+
       - name: Output Run Number
         run: echo ${{ github.run_number }}
