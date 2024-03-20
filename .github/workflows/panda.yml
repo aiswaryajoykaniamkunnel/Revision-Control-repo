@@ -26,7 +26,9 @@ jobs:
           
 
       - name: Output Run git rev-list --count HEAD 
-        run: echo $GITHUB_RUN_ATTEMPT
+        run: |
+          echo "run attempt: $GITHUB_RUN_ATTEMPT"
+          echo $GITHUB_RUN_NUMBER
 
       - name: Output Run Number
         run: echo ${{ github.run_number }}
