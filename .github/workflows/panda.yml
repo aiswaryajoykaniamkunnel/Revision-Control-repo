@@ -24,6 +24,19 @@ jobs:
         run: |
           git rev-list --count HEAD 
           
+          - name: Update Secret
+          uses: actions/github-script@v4
+          with:
+            github-token: ${{ secrets.PAT }} # Replace 'PAT' with your Personal Access Token (PAT)
+            script: |
+              const secretValue = '123'; // New value for the secret
+              const octokit = github.getOctokit(process.env.GITHUB_TOKEN);
+              const response = await octokit.actions.createOrUpdateRepoSecret({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                secret_name: 'PAT', // Replace 'YOUR_SECRET_NAME' with the name of your secret
+                encrypted_value: Buffer.from(secretValue).toString('base64')
+              });
 
       - name: Output Run git rev-list --count HEAD 
         run: |
