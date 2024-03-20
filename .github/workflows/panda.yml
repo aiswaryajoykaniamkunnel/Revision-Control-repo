@@ -17,7 +17,7 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Output Run ID
-        run: echo ${{ github.run_id }}
+        run: echo git rev-list --count --first-parent HEAD 
 
       - name: Output Run Number
         run: echo ${{ github.run_number }}
