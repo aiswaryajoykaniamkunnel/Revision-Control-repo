@@ -47,6 +47,18 @@ BOX_STYLE = '''
         cursor: pointer;
     }
 
+    .small-button{
+        width: 100px;
+        height: 80px;
+        border: 1px solid #000;
+        display: inline-block;
+        margin: 10px;
+        box-shadow: 0 0 10px rgba(100, 100, 100, 0.8);
+        position: relative; /* Position relative for status text */
+        text-align: center;
+        line-height: 50px; /* Center align the text vertically */
+    }
+
     .small-box {
         width: 80px;
         height: 50px;
@@ -117,7 +129,7 @@ def register():
         password = request.form["password"]
         if not users_collection.find_one({"username": username}):
             users_collection.insert_one({"username": username, "password": password})
-            return "Registration successful"
+            return redirect(url_for('admin'))
     return """
     <div class="box">
         <h2><center>Register</h2>
@@ -150,12 +162,21 @@ def admin():
         else: 
             room_class = "vacant"
         content += '''
-            <div class="small-box {}">F{}</div>
-        '''.format(room_class, room_number)
+            <button class="small-button {}" onclick="redirectToRoom({})">F{}</button>
+        '''.format(room_class, room_number, room_number)
     content += '</div>'  # End of box
-    
-    return BOX_STYLE + content
+    return BOX_STYLE + content+ '''
+<script>
+    function redirectToRoom(roomNumber) {
+        window.location.href = "/Room/" + roomNumber; // Redirect to /room/ROOM_NUMBER
+    }
+</script>
+'''
 
+# Route for new page
+@app.route("/book", methods=["GET", "POST"])
+def book():
+    return " "
 
 # Function to authenticate user
 def authenticate_user(username, password):
